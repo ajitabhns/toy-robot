@@ -12,8 +12,8 @@ py main.py
 
 ### Examples of use
 
-a)----------------
-PLACE 0,0,NORTH
-MOVE
-REPORT
-Output: 0,1,NORTH
+a)----------------  
+PLACE 0,0,NORTH  
+MOVE  
+REPORT  
+Output: 0,1,NORTH  
