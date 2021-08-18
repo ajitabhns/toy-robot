@@ -17,7 +17,7 @@ class Robot:
     debug : bool
         debug flag to start robot in debug mode
     """
-    def __init__(self, max_x=5, max_y=5, debug=False):
+    def __init__(self, max_x=5, max_y=5):
         Pos = namedtuple('Pos', ['x', 'y', 'd'])
         self.cur_pos = Pos(-1, -1, 'NORTH')
         self.max_x = max_x
@@ -28,7 +28,6 @@ class Robot:
         self.x = 0
         self.y = 0
         self.d = None
-        self.debug = debug
 
     def move(self):
         """
@@ -101,25 +100,13 @@ class Robot:
             status = False
         return status
 
-    def run(self, action_list=[]):
+    def run(self):
         """"
         Main running loop
         """
-        if self.debug:
-            move_iter = None
-
         while True:
             try:
-                if self.debug:
-                    if not move_iter:
-                        move_iter = yield_input(action_list=action_list)
-                    
-                    try:
-                        move = next(move_iter)
-                    except StopIteration as e:
-                        break
-                else:
-                    move = input()
+                move = input()
 
                 if not self.validate_move(move):
                     continue
@@ -141,10 +128,6 @@ class Robot:
                     break
             except Exception as e:
                 pass
-
-def yield_input(action_list=[]):
-    for move in action_list:
-        yield move
 
 if __name__ == '__main__':
     i_robot = Robot()

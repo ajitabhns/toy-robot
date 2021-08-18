@@ -6,7 +6,7 @@ from main import Robot
 class TestRobot(unittest.TestCase):
 
     def setUp(self):
-        self.test_robot = Robot(max_x=4, max_y=4, debug=True)
+        self.test_robot = Robot(max_x=4, max_y=4)
 
     def test_place_1(self):
         self.test_robot.place(x=3, y=2, d='NORTH')
@@ -134,124 +134,124 @@ class TestRobot(unittest.TestCase):
             self.test_robot.move()
         self.assertEqual(str(cm.exception), 'Invalid move x: 0 y: 0 d: WEST')
 
+    @patch('builtins.input', side_effect=['PLACE 1,2,EAST', 'MOVE', 'MOVE', 'LEFT', 'MOVE', 'REPORT'])
     @patch('sys.stdout', new_callable=StringIO)
-    def test_robot_run_21(self, mock_stdout):
-        action_list = ['PLACE 1,2,EAST', 'MOVE', 'MOVE', 'LEFT', 'MOVE', 'REPORT']
-        self.test_robot.run(action_list=action_list)
+    def test_robot_run_21(self, mock_stdout, mock_stdin):
+        self.test_robot.run()
         self.assertEqual('Output: 3,3,NORTH\n', mock_stdout.getvalue())
 
+    @patch('builtins.input', side_effect=['PLACE 0,0,NORTH', 'LEFT', 'REPORT'])
     @patch('sys.stdout', new_callable=StringIO)
-    def test_robot_run_22(self, mock_stdout):
-        action_list = ['PLACE 0,0,NORTH', 'LEFT', 'REPORT']
-        self.test_robot.run(action_list=action_list)
+    def test_robot_run_22(self, mock_stdout, mock_stdin):
+        self.test_robot.run()
         self.assertEqual('Output: 0,0,WEST\n', mock_stdout.getvalue())
 
+    @patch('builtins.input', side_effect=['PLACE 0,0,NORTH', 'RIGHT', 'REPORT'])
     @patch('sys.stdout', new_callable=StringIO)
-    def test_robot_run_23(self, mock_stdout):
-        action_list = ['PLACE 0,0,NORTH', 'RIGHT', 'REPORT']
-        self.test_robot.run(action_list=action_list)
+    def test_robot_run_23(self, mock_stdout, mock_stdin):
+        self.test_robot.run()
         self.assertEqual('Output: 0,0,EAST\n', mock_stdout.getvalue())
 
+    @patch('builtins.input', side_effect=['PLACE 0,0,EAST', 'LEFT', 'REPORT'])
     @patch('sys.stdout', new_callable=StringIO)
-    def test_robot_run_24(self, mock_stdout):
-        action_list = ['PLACE 0,0,EAST', 'LEFT', 'REPORT']
-        self.test_robot.run(action_list=action_list)
+    def test_robot_run_24(self, mock_stdout, mock_stdin):
+        self.test_robot.run()
         self.assertEqual('Output: 0,0,NORTH\n', mock_stdout.getvalue())
 
+    @patch('builtins.input', side_effect=['PLACE 0,0,EAST', 'RIGHT', 'REPORT'])
     @patch('sys.stdout', new_callable=StringIO)
-    def test_robot_run_25(self, mock_stdout):
-        action_list = ['PLACE 0,0,EAST', 'RIGHT', 'REPORT']
-        self.test_robot.run(action_list=action_list)
+    def test_robot_run_25(self, mock_stdout, mock_stdin):
+        self.test_robot.run()
         self.assertEqual('Output: 0,0,SOUTH\n', mock_stdout.getvalue())
 
+    @patch('builtins.input', side_effect=['PLACE 0,0,SOUTH', 'LEFT', 'REPORT'])
     @patch('sys.stdout', new_callable=StringIO)
-    def test_robot_run_26(self, mock_stdout):
-        action_list = ['PLACE 0,0,SOUTH', 'LEFT', 'REPORT']
-        self.test_robot.run(action_list=action_list)
+    def test_robot_run_26(self, mock_stdout, mock_stdin):
+        self.test_robot.run()
         self.assertEqual('Output: 0,0,EAST\n', mock_stdout.getvalue())
 
+    @patch('builtins.input', side_effect=['PLACE 0,0,SOUTH', 'RIGHT', 'REPORT'])
     @patch('sys.stdout', new_callable=StringIO)
-    def test_robot_run_27(self, mock_stdout):
-        action_list = ['PLACE 0,0,SOUTH', 'RIGHT', 'REPORT']
-        self.test_robot.run(action_list=action_list)
+    def test_robot_run_27(self, mock_stdout, mock_stdin):
+        self.test_robot.run()
         self.assertEqual('Output: 0,0,WEST\n', mock_stdout.getvalue())
 
+    @patch('builtins.input', side_effect=['PLACE 0,0,WEST', 'LEFT', 'REPORT'])
     @patch('sys.stdout', new_callable=StringIO)
-    def test_robot_run_28(self, mock_stdout):
-        action_list = ['PLACE 0,0,WEST', 'LEFT', 'REPORT']
-        self.test_robot.run(action_list=action_list)
+    def test_robot_run_28(self, mock_stdout, mock_stdin):
+        self.test_robot.run()
         self.assertEqual('Output: 0,0,SOUTH\n', mock_stdout.getvalue())
 
+    @patch('builtins.input', side_effect=['PLACE 0,0,WEST', 'RIGHT', 'REPORT'])
     @patch('sys.stdout', new_callable=StringIO)
-    def test_robot_run_29(self, mock_stdout):
-        action_list = ['PLACE 0,0,WEST', 'RIGHT', 'REPORT']
-        self.test_robot.run(action_list=action_list)
+    def test_robot_run_29(self, mock_stdout, mock_stdin):
+        self.test_robot.run()
         self.assertEqual('Output: 0,0,NORTH\n', mock_stdout.getvalue())
 
-    @patch('sys.stdout', new_callable=StringIO)
-    def test_robot_run_30(self, mock_stdout):
-        action_list = ['MOVE', 'REPORT']
-        self.test_robot.run(action_list=action_list)
-        self.assertEqual('', mock_stdout.getvalue())
+    # @patch('builtins.input', side_effect=['MOVE', 'REPORT'])
+    # @patch('sys.stdout', new_callable=StringIO)
+    # def test_robot_run_30(self, mock_stdout,mock_stdin):
+    #     self.test_robot.run()
+    #     self.assertEqual('', mock_stdout.getvalue())
 
+    @patch('builtins.input', side_effect=['MOVE', 'PLACE 0,3,SOUTH', 'MOVE', 'REPORT'])
     @patch('sys.stdout', new_callable=StringIO)
-    def test_robot_run_31(self, mock_stdout):
-        action_list = ['MOVE', 'PLACE 0,3,SOUTH', 'MOVE', 'REPORT']
-        self.test_robot.run(action_list=action_list)
+    def test_robot_run_31(self, mock_stdout, mock_stdin):
+        self.test_robot.run()
         self.assertEqual('Output: 0,2,SOUTH\n', mock_stdout.getvalue())
 
+    @patch('builtins.input', side_effect=['MOVE', 'PLACE 0,0,WEST', 'MOVE', 'REPORT'])
     @patch('sys.stdout', new_callable=StringIO)
-    def test_robot_run_32(self, mock_stdout):
-        action_list = ['MOVE', 'PLACE 0,0,WEST', 'MOVE', 'REPORT']
-        self.test_robot.run(action_list=action_list)
+    def test_robot_run_32(self, mock_stdout, mock_stdin):
+        self.test_robot.run()
         self.assertEqual('Output: 0,0,WEST\n', mock_stdout.getvalue())
 
+    @patch('builtins.input', side_effect=['MOVE', 'PLACE 3,3,WEST', 'MOVE', 'RIGHT', 'MOVE', 'REPORT'])
     @patch('sys.stdout', new_callable=StringIO)
-    def test_robot_run_33(self, mock_stdout):
-        action_list = ['MOVE', 'PLACE 3,3,WEST', 'MOVE', 'RIGHT', 'MOVE', 'REPORT']
-        self.test_robot.run(action_list=action_list)
+    def test_robot_run_33(self, mock_stdout, mock_stdin):
+        self.test_robot.run()
         self.assertEqual('Output: 2,3,NORTH\n', mock_stdout.getvalue())
 
+    @patch('builtins.input', side_effect=['MOVE', 'PLACE 0,0,EAST', 'MOVE', 'LEFT', 'MOVE', 'REPORT'])
     @patch('sys.stdout', new_callable=StringIO)
-    def test_robot_run_34(self, mock_stdout):
-        action_list = ['MOVE', 'PLACE 0,0,EAST', 'MOVE', 'LEFT', 'MOVE', 'REPORT']
-        self.test_robot.run(action_list=action_list)
+    def test_robot_run_34(self, mock_stdout, mock_stdin):
+        self.test_robot.run()
         self.assertEqual('Output: 1,1,NORTH\n', mock_stdout.getvalue())
 
+    @patch('builtins.input', side_effect=['INVALID', 'PLACE 0,0,EAST', 'MOVE', 'LEFT', 'MOVE', 'REPORT'])
     @patch('sys.stdout', new_callable=StringIO)
-    def test_robot_run_35(self, mock_stdout):
-        action_list = ['INVALID', 'PLACE 0,0,EAST', 'MOVE', 'LEFT', 'MOVE', 'REPORT']
-        self.test_robot.run(action_list=action_list)
+    def test_robot_run_35(self, mock_stdout, mock_stdin):
+        self.test_robot.run()
         self.assertEqual('Output: 1,1,NORTH\n', mock_stdout.getvalue())
 
+    @patch('builtins.input', side_effect=['MOVE', 'PLACE 0,0,SOUTH', 'MOVE', 'REPORT'])
     @patch('sys.stdout', new_callable=StringIO)
-    def test_robot_run_36(self, mock_stdout):
-        action_list = ['MOVE', 'PLACE 0,0,SOUTH', 'MOVE', 'REPORT']
-        self.test_robot.run(action_list=action_list)
+    def test_robot_run_36(self, mock_stdout, mock_stdin):
+        self.test_robot.run()
         self.assertEqual('Output: 0,0,SOUTH\n', mock_stdout.getvalue())
 
+    @patch('builtins.input', side_effect=['MOVE', 'PLACE 0,3,NORTH', 'MOVE', 'REPORT'])
     @patch('sys.stdout', new_callable=StringIO)
-    def test_robot_run_37(self, mock_stdout):
-        action_list = ['MOVE', 'PLACE 0,3,NORTH', 'MOVE', 'REPORT']
-        self.test_robot.run(action_list=action_list)
+    def test_robot_run_37(self, mock_stdout, mock_stdin):
+        self.test_robot.run()
         self.assertEqual('Output: 0,3,NORTH\n', mock_stdout.getvalue())
 
+    @patch('builtins.input', side_effect=['MOVE', 'PLACE 3,0,EAST', 'MOVE', 'REPORT'])
     @patch('sys.stdout', new_callable=StringIO)
-    def test_robot_run_38(self, mock_stdout):
-        action_list = ['MOVE', 'PLACE 3,0,EAST', 'MOVE', 'REPORT']
-        self.test_robot.run(action_list=action_list)
+    def test_robot_run_38(self, mock_stdout, mock_stdin):
+        self.test_robot.run()
         self.assertEqual('Output: 3,0,EAST\n', mock_stdout.getvalue())
 
+    @patch('builtins.input', side_effect=['MOVE', 'PLACE 3,3,EAST', 'MOVE', 'REPORT'])
     @patch('sys.stdout', new_callable=StringIO)
-    def test_robot_run_39(self, mock_stdout):
-        action_list = ['MOVE', 'PLACE 3,3,EAST', 'MOVE', 'REPORT']
-        self.test_robot.run(action_list=action_list)
+    def test_robot_run_39(self, mock_stdout, mock_stdin):
+        self.test_robot.run()
         self.assertEqual('Output: 3,3,EAST\n', mock_stdout.getvalue())
 
+    @patch('builtins.input', side_effect=['MOVE', 'PLACE 3,3,NORTH', 'MOVE', 'REPORT'])
     @patch('sys.stdout', new_callable=StringIO)
-    def test_robot_run_40(self, mock_stdout):
-        action_list = ['MOVE', 'PLACE 3,3,NORTH', 'MOVE', 'REPORT']
-        self.test_robot.run(action_list=action_list)
+    def test_robot_run_40(self, mock_stdout, mock_stdin):
+        self.test_robot.run()
         self.assertEqual('Output: 3,3,NORTH\n', mock_stdout.getvalue())
 
 if __name__ == '__main__':
